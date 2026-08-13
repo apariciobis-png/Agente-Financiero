@@ -1,0 +1,12 @@
+# pnpm 11 bloquea por defecto los scripts de instalación de los paquetes.
+# unrs-resolver es una dependencia transitiva legítima de eslint-config-next
+# (vía eslint-import-resolver-typescript) que compila un binario nativo de
+# resolución de módulos. Sin esto, `pnpm install` falla con ERR_PNPM_IGNORED_BUILDS
+# y arrastra el fallo a `pnpm test` y `pnpm dev`.
+# Ver "Trampas conocidas del stack" en docs/architecture.md.
+allowBuilds:
+  unrs-resolver: true
+  sharp: false
+  # esbuild: dependencia transitiva de vite (vía vitest), necesaria para que
+  # Vitest transforme y ejecute los tests. Paquete legítimo y muy conocido.
+  esbuild: true
