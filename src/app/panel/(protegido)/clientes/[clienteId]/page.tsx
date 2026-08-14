@@ -5,6 +5,7 @@ import { TabsCliente } from './tabs';
 import { VistaDiagnostico } from './vista-diagnostico';
 import { VistaFichaCruda } from './vista-ficha-cruda';
 import { VistaPlan } from './vista-plan';
+import { RecalcularDiagnostico } from './recalcular-diagnostico';
 
 export default async function PaginaCliente({
   params,
@@ -44,6 +45,13 @@ export default async function PaginaCliente({
           {detalle.entrevista ? ` (entrevista ${detalle.entrevista.estado}).` : '.'}
         </p>
       ) : (
+        <>
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-slate-400 dark:text-slate-500">
+            Calculado el {new Date(detalle.analisis.calculadoEn).toLocaleString('es-ES')}
+          </p>
+          <RecalcularDiagnostico clienteId={detalle.cliente.id} />
+        </div>
         <TabsCliente
           diagnostico={<VistaDiagnostico resultado={detalle.analisis.resultado} />}
           ficha={
@@ -61,6 +69,7 @@ export default async function PaginaCliente({
             )
           }
         />
+        </>
       )}
     </main>
   );
